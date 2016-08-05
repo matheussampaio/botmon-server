@@ -1,3 +1,10 @@
+const gcloud = require('gcloud')({
+  projectId: 'pokemongo-1',
+
+  // The path to your key file:
+  keyFilename: './configs/pokemogo-1-7309e1a26e69.json'
+});
+
 // Express
 const express = require('express');
 
@@ -15,7 +22,7 @@ app.listen(3000, () => {
 const firebase = require('firebase');
 
 firebase.initializeApp({
-  serviceAccount: './meowth-config.json',
+  serviceAccount: './configs/meowth-config.json',
   databaseURL: 'https://meowth-aed86.firebaseio.com'
 });
 
@@ -35,6 +42,8 @@ function handleUpdate(bot) {
     createBot(bot)
   } else if (bot.next === 'start') {
     startBot(bot)
+  } else {
+    console.error('action unknown', bot);
   }
 }
 
