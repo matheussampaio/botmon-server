@@ -28,35 +28,16 @@ firebase.initializeApp({
 
 const db = firebase.database();
 
-const ref = db.ref('bots/');
+const botsRef = db.ref('bots/');
+const vmsRef = db.ref('vms/');
 
-ref.on('child_added', snapshot => handleUpdate(snapshot.val()));
-ref.on('child_changed', snapshot => handleUpdate(snapshot.val()));
+botsRef.on('child_added', snapshot => handleUpdate(snapshot.key, snapshot.val()));
+botsRef.on('child_changed', snapshot => handleUpdate(snapshot.key, snapshot.val()));
+botsRef.on('child_removed', (snapshot, key) => console.log('removed', key, snapshot.val()) );
 
-ref.on('child_removed', (snapshot, key) => {
-  console.log('removed', key, snapshot.val());
-});
-
-function handleUpdate(bot) {
-  if (bot.status === 'waiting_allocation') {
-    startBot(bot)
-  } else {
-    console.error('action unknown', bot);
+function handleUpdate(botKey, botValues) {
+  if (botValues.status === 'waiting_allocation') {
+    botsRef.child(botKey).update({ vm: 'a1b2c3d4', status: 'waiting_for_vm' });
+    vmsRef.child('a1b2c3d4/bots').update({ [botKey]: 1 });
   }
-}
-
-// ================
-// Bot interaction
-// ================
-
-// create bot
-function createBot(bot) {
-    console.log('creating bot...')
-    console.log(bot)
-}
-
-// start bot
-function startBot(bot) {
-    console.log('starting bot...')
-    console.log(bot)
 }
