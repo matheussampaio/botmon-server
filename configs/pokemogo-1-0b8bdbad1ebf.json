@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "pokemogo-1",
+  "private_key_id": "0b8bdbad1ebf08b9eaf141600944a135fe3c872e",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEuwIBADANBgkqhkiG9w0BAQEFAASCBKUwggShAgEAAoIBAQCModlIdmJTAH5s\nX3sdoAH7lk+ExDqoIQPh7oN7t2H/KA8JGyFi4VsHeIhMqmxR20Q4yq2X6xCB/vQw\nYjBlWlZq7dwST0TLVe8T81a3BfKS7seJ/bSjGKfKdjOa8FX0F2qSK/13GEDu7OZF\nOZAKzWuCX+D7hVbNaVMshE2W6cr13LvpXDeo0OC5N259wBPImSBoCptqVY5pWqBW\nFWKPF13jhprHHKFqZ8YNM5XwI2cGZwUb23Qcyx83KD+Fd0qDzLA1LSH4j3Eqqz6J\nhvjsF1463P+JarrCEHQHumkUmnGfn6o2TEmZ2ibjmqVUyltyjqdDMrhrlHI8+B7o\nkeUmR+u9AgMBAAECggEAfirF8Qikdaq/wSJ4Jb/jh372oDocFbJo9U0ykM+ZD300\n4AqDDV74d99fCMjsnROGRR0wWFb/XGELWkz89jDxzsTO525OXc4ey1tItLKVSdUH\nF3mRkbEQ98bLzXlI49AOQE1O/IW526CVhg16ePaKOVEjWwPpOCgCArI/meDtwVyM\nDX8t7W2qaZ788izRhn4yOsCrS5k79VsBrIwhfmq6fykIUmfLyzYEf2ZkWiKf2SPC\nii8/vHb/m/mgwaelXp3AbKDT/shWEGhiRBTdV7Sax+LArxo21zK26m9Pw4iSie9q\n9bu6kpbOnq6fk/xQFSQgk46T188Hxrp51QqiwslrUQKBgQDWUegNJfDN1wJPbarW\nNDad5osPlcHaRcJ++4sTaTp0TE5rljGYmYCVojqxdqgwG/0f7lSMcnhaprTcdjuZ\nUqxKAaivyWtyIKWllWhjRT2xVm6fbOJ9JWoBpx8SlZMy0lFDIras1hHVVYG+g1H4\ne/3R4Bqye5+wLh2Yjor5GoRlfwKBgQCn+1a3xV82XQmayDdcLswwFqeqAutGJQ/N\nBtAfI01ClDnXVDzPpKQIohlkYF8mAXCDxzvv/dJkn4cZTiN4dShqMlPeot6W1ce5\nQi60qt1tKhtDWWyBdYbYPUtn1I675CpHE/kpaFMD+h/OVlI1x4GjoWmaYdhfG/VK\nfpTdUrdkwwJ/bNUrAYJCxkRo5+zI0/2vvn9UHpXt2umR2unhtfm5tVUKfZfHl7Zb\nlaDMLVIUFlogMBbW2HtIosAFF+7yVOmmk+5DuwCNj2cEtxEn8UE4EtXRVyPz35kg\nO7aiEM3j8erbWTxHh30tkSfauuP0vDo6qlkjNX+Rl+XTIaVA7T6J/QKBgDzdYsRf\nbWpDN7Gvje+GvVFHRCTjvd/CmgEN0OcXYW0YTATrbsVFwHGoWk72ZENfDieRTvRc\nIZl3+/l9SHji6mvgJGds1/4LI7zKcCXiKyzcrtguVJRrwxoiy2mpqLYHrBHo+MS6\nGio8vL2EpXD7AswJNjxL65w6gxwk1UeEKxMFAoGBALK6kCE3YNXkmaQDJxA0rMpG\n4WmRPJDmodH2oRspuHLc+ap8+2MrXxqtHOK28cRpHFJkUqtxqc85D6RwYeTyjIa0\nccNuCLMdABrYvx4woSCfiBMW3katU5oFnqcgcqROIZ3Y2JMByF8clXQn+6WwX82M\nEVizpiPIcf8mxeGFpcNi\n-----END PRIVATE KEY-----\n",
+  "client_email": "pokemogo-1@appspot.gserviceaccount.com",
+  "client_id": "112099799609179195499",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/pokemogo-1%40appspot.gserviceaccount.com"
+}

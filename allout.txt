@@ -1,0 +1,37 @@
+starting server instance...
+server folder: /Users/matheussampaio/git/botmon/server/src
+initializing firebase app...
+adding listerns for bots/status
+adding listenrs for vms
+checking for timeout vms...
+bot -KOhfhmkIpt2CCCu4NkG is waiting for allocation { status: 'waiting_allocation', user: 'abcdefg123' }
+allocating bot -KOhfhmkIpt2CCCu4NkG...
+checking for free vms...
+bot -KOhhZ9f6H8JR7glab5h is waiting for allocation { status: 'waiting_allocation', user: 'abcdefg123' }
+another allocation going on
+no vm online, we should start a new one
+marking vm -KOhoKEA3BUhsmdRpCR4 as idle
+no free VM, let's check if we should create one...
+startNewVM
+we already have a VM starting
+{ ApiError: The resource 'projects/pokemogo-1/zones/us-east1-b/instances/abcdefg123456' already exists
+    at new util.ApiError (/Users/matheussampaio/git/botmon/server/node_modules/gcloud/lib/common/util.js:112:10)
+    at Object.parseHttpRespBody (/Users/matheussampaio/git/botmon/server/node_modules/gcloud/lib/common/util.js:190:30)
+    at Object.handleResp (/Users/matheussampaio/git/botmon/server/node_modules/gcloud/lib/common/util.js:130:18)
+    at /Users/matheussampaio/git/botmon/server/node_modules/gcloud/lib/common/util.js:453:12
+    at Request.onResponse [as _callback] (/Users/matheussampaio/git/botmon/server/node_modules/retry-request/index.js:120:7)
+    at Request.self.callback (/Users/matheussampaio/git/botmon/server/node_modules/request/request.js:187:22)
+    at emitTwo (events.js:106:13)
+    at Request.emit (events.js:191:7)
+    at Request.<anonymous> (/Users/matheussampaio/git/botmon/server/node_modules/request/request.js:1044:10)
+    at emitOne (events.js:96:13)
+  code: 409,
+  errors: 
+   [ { domain: 'global',
+       reason: 'alreadyExists',
+       message: 'The resource \'projects/pokemogo-1/zones/us-east1-b/instances/abcdefg123456\' already exists' } ],
+  response: undefined,
+  message: 'The resource \'projects/pokemogo-1/zones/us-east1-b/instances/abcdefg123456\' already exists' } null null { error: 
+   { errors: [ [Object] ],
+     code: 409,
+     message: 'The resource \'projects/pokemogo-1/zones/us-east1-b/instances/abcdefg123456\' already exists' } }

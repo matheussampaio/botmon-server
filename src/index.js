@@ -1,10 +1,17 @@
+process.env.TZ = 'utc';
+
+const path = require('path');
+
 const exec = require('child_process').exec;
-// const gcloud = require('gcloud')({
-//   projectId: 'pokemongo-1',
-//
-//   // The path to your key file:
-//   keyFilename: './configs/pokemogo-1-7309e1a26e69.json'
-// });
+const gcloud = require('gcloud')({
+  projectId: 'pokemogo-1',
+
+  // The path to your key file:
+  keyFilename: path.join(__dirname, '../configs/pokemogo-1-7309e1a26e69.json')
+});
+
+const gce = gcloud.compute();
+const zone = gce.zone('us-east1-b');
 
 console.log('starting server instance...');
 
@@ -117,26 +124,100 @@ function startNewVM() {
           timestamp: (new Date).getTime()
         });
 
-        o.once('child_changed', resolve);
-
         console.log(`no VM starting, let's creating one...`);
 
-        const child = exec(`CONFIG_VM_ID=${o.key} node ../vm/src/index.js`);
+        const name = o.key.slice(1).toLowerCase();
+        const vm = zone.vm(name);
+        const config = {
+          machineType: 'f1-micro',
+          metadata: {
+            kind: 'compute#metadata',
+            items: [
+              {
+                key: 'vmid',
+                value: name
+              },
+              {
+                key: 'startup-script',
+                value: [
+                  `#! /bin/bash`,
+                  `set -e`,
+                  `set -x`,
+                  `sudo apt-get update`,
+                  `sudo apt-get install -y build-essential python python-dev wget`,
+                  `wget https://bootstrap.pypa.io/get-pip.py`,
+                  `#sudo mkdir -p /mnt/disks/files/`,
+                  `#sudo mount -o discard,defaults /dev/disk/by-id/google-instance-1-part1 /mnt/disks/files/`,
+                  `#sudo chmod a+w /mnt/disks/files`,
+                  `sudo python get-pip.py`,
+                  `sudo pip install virtualenv requests`,
+                  `curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -\nsudo apt-get install -y nodejs`,
+                  `git clone https://8dbc541f364ffed0b61568cc1e7c01624cb58760@github.com/matheussampaio/botmon-vm.git`,
+                  `git clone https://8dbc541f364ffed0b61568cc1e7c01624cb58760@github.com/matheussampaio/botmon-bot.git`,
+                  `cd botmon-vm`,
+                  `sudo npm install`,
+                  `sudo node src/index.js > allout.txt 2>&1`
+                ].join('\n\n')
+              }
+            ]
+          },
+          tags: {
+            items: [
+              'http-server',
+              'https-server'
+            ]
+          },
+            "disks": [
+            {
+              "type": "PERSISTENT",
+              "boot": true,
+              "mode": "READ_WRITE",
+              "autoDelete": true,
+              "deviceName": name,
+              "initializeParams": {
+                "sourceImage": "https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/images/ubuntu-1604-xenial-v20160721",
+                "diskType": "projects/pokemogo-1/zones/us-east1-b/diskTypes/pd-standard",
+                "diskSizeGb": "10"
+              }
+            }
+          ],
+          "canIpForward": false,
+          "networkInterfaces": [
+            {
+              "network": "projects/pokemogo-1/global/networks/default",
+              "accessConfigs": [
+                {
+                  "name": "External NAT",
+                  "type": "ONE_TO_ONE_NAT"
+                }
+              ]
+            }
+          ],
+          "description": "",
+          "scheduling": {
+            "preemptible": false,
+            "onHostMaintenance": "MIGRATE",
+            "automaticRestart": true
+          },
+          "serviceAccounts": [
+            {
+              "email": "botmon@pokemogo-1.iam.gserviceaccount.com",
+              "scopes": [
+                "https://www.googleapis.com/auth/cloud-platform"
+              ]
+            }
+          ]
+        };
 
-        child.stdout.on('data', (data) => {
-          console.log(`VM [ ${o.key} ] stdout: ${data}`);
+        vm.create(config, (err, vm, operation, apiResponse) => {
+          console.log(err, vm, operation, apiResponse);
         });
 
-        child.stderr.on('data', (data) => {
-          console.log(`VM [ ${o.key} ] stderr: ${data}`);
-        });
-
-        child.on('close', (code) => {
-          console.log(`VM [ ${o.key} ] child process exited with code ${code}`);
-        });
       } else {
         console.log('we already have a VM starting');
       }
+
+      vmsRef.orderByChild('status').equalTo('online').once('child_changed', resolve);
     });
   });
 
@@ -192,14 +273,25 @@ function updateVMs() {
         const vm = vms[key];
         const time = (new Date).getTime();
 
-        if (time - vm.timestamp > 60000) {
+        if (time - vm.timestamp > 60 * 1000 && vm.status === 'starting') {
           console.log(`timeout on vm ${key}, removing it...`);
           vmsRef.child(key).remove();
         } else if (!vm.bots) {
           if (vm.idle) {
-            if (time - vm.idle > 120000 && vm.status === 'online') {
+            if (time - vm.idle > 5 * 60 * 1000 && vm.status === 'online') {
               console.log('shutdown idle vm:', key);
               vmsRef.child(key).update({ status: 'shut_down' });
+
+              vmsRef.orderByChild('status').equalTo('offline').once('child_changed', () => {
+                const name = key.slice(1).toLowerCase();
+                const vm = zone.vm(name);
+                console.log('deleting instance', name);
+
+                vm.delete(function(err, operation, apiResponse) {
+                  // `operation` is an Operation object that can be used to check the status
+                  // of the request.
+                });
+              });
             }
           } else {
             console.log(`marking vm ${key} as idle`);
