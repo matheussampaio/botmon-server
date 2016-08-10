@@ -10,9 +10,10 @@
   "author": "Matheus Sampaio <matheus1401@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "express": "4.14.0",
     "firebase": "3.2.1",
-    "gcloud": "0.37.0"
+    "gcloud": "0.37.0",
+    "lodash": "4.14.2",
+    "winston": "2.2.0"
   },
   "devDependencies": {
     "nodemon": "1.10.0"
